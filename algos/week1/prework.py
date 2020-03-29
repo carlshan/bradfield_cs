@@ -15,7 +15,7 @@ Prework for Week 1 (March 30) included the following:
 """ 
 
 # Approach No. 1 -- Naive, simple approach of checking each letter
-
+# This is the first approach I thought of when immediately encountering the problem.
 alphabet = list('abcdefghijklmnopqrstuvwxyz')
 test_string_pass = "the quick brown fox jumps over the lazy dog"
 test_string_fail = "the quick brown fox jumps over the lazy do"
@@ -37,6 +37,7 @@ print(is_pangram_1(test_string_pass, alphabet))
 print(is_pangram_1(test_string_fail, alphabet))
 
 # Approach No. 2 -- Comparing sets
+# I thought of this approach when wondering whether I could reduce the time complexity from len(string) * len(alphabet) to something that just has to scan over the string once.
 
 def is_pangram_2(string, alphabet):
     """
@@ -53,6 +54,8 @@ print(is_pangram_2(test_string_pass, alphabet))
 print(is_pangram_2(test_string_fail, alphabet))
 
 # Approach No. 3 -- Improving upon approach number 1
+# I came to the following solution when wondering whether I could improveon Approach No. 1 by reducing the time it takes to scan the string.
+
 def is_pangram_3(string, alphabet):
     """
         Improves upon is_pangram_1 by reducing the length of the string that needs to be scanned over
