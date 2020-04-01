@@ -46,7 +46,7 @@ def is_pangram_2(string, alphabet):
     """
     string = string.lower()
 
-    unique_letters = set(string) # scans string once to get unique elements (I assum it only scans the string once)
+    unique_letters = set(string) # scans string once to get unique elements (I assume it only scans the string once)
 
     return len(unique_letters.intersection(alphabet)) == len(alphabet) # scans alphabet once
 
