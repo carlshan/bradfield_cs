@@ -44,7 +44,7 @@ Strategy 1:
 * stop at the first combination where the weight does not exceed the limit
 
 Other ideas after doodling:
-* Calculate the value per weight ratio and take the highest N ones until you exceed the weight limit
+* Calculate the value per weight ratio and take the highest N ones until you exceed the weight limit. I might try this strategy next.
 * This smells like a constrainted optimization problem
 
 
@@ -70,8 +70,8 @@ Add the coordinates / vectors together?
 # I'm going to start by implementing this strategy
 import copy
 
-memory = {}
-# This was my first attempt at a recursive.
+# Reflection:
+# This was my first attempt at a recursive solution.
 # It took me a little bit of time to realize I had to add the `if weight_limit - item_weight >= 0` condition in the for-loop.
 # I also believe this is a O(N!) (yikes!) solution. It doesn't even finish running on 15 items (15! is ~1.3tn)
 # My next thoughts are to cache results to speed things up.
@@ -80,11 +80,18 @@ def maximum_value(weight_limit, items):
         Returns maximum value given the items
 
         Algorithm:
-            Base case: there is only one item. Then check if it's possible to take it.
-            For each item, put it in your bag and see what the maximum value of the remaining items / weight limit are now.
+            Base cases: 
+                0. The weight is <= 0, in which case no maximum value can be taken
+                1. There is only one item. Then check if it's possible to take it and if so that is the maximum value. Else it's 0.
+                2. If there are no items, in which case the maximum value is also 0.
+            Recursive case:
+                For each item, put it in your bag and see what the maximum value of the remaining items / weight limit are now.
     """
 
     if weight_limit <= 0:
+        return 0
+
+    if len(items) == 0:
         return 0
 
     if len(items) == 1:
@@ -94,7 +101,8 @@ def maximum_value(weight_limit, items):
         else:
             return 0
 
-    values = []
+    values = [0]
+
     for item in items:
         item_value = item['value']
         item_weight = item['weight']
@@ -104,70 +112,103 @@ def maximum_value(weight_limit, items):
             copied_items.remove(item)
             # Recursively find the solution if we packed the current item and then all items except the current
             total_value = item_value + maximum_value(weight_limit - item_weight, copied_items)
-        else: # this path is a dead end, so break out of the loop
-            total_value = 0
+        else: # this path is a dead end, so move onto the next iteration of the loop
+            continue
         
         values.append(total_value)
+    
     maximum = max(values)
     return maximum
 
-test_items = [ 
-    { "weight": 5, "value": 10 }, 
-    { "weight": 4, "value": 40 }, 
-    { "weight": 6, "value": 30 }, 
-    { "weight": 4, "value": 50 } 
-]
 
-test_items2 = [ 
-    { "weight": 5, "value": 10 },
-    { "weight": 10, "value": 11 },
-    { "weight": 10, "value": 11 }
-]
+# Day 2:
+# I have a few ideas:
+# (1) memoize/cache to speed up the previous day's results
+# (2) do some sorting/pruning early on in the problem to speed up results
+# (3) I recently read Avik Das' description on Dynamic Programming (found on Reddit's r/algorithms) here: https://avikdas.com/2019/04/15/a-graphical-introduction-to-dynamic-programming.html
+# After reading it, I want to try grokking the concepts contained within and actually employ it.
+# Specifically, it feels like there are deep structural connections between the knapsack problem 
+# with both the bank robber problem, as well as the change making problem described in the blog post.
 
-test_items3 =  [
-    {"weight": 2, "value": 5},
-    {"weight": 2, "value": 5},
-    {"weight": 2, "value": 5},
-    {"weight": 2, "value": 5},
-    {"weight": 10, "value": 21}
-]
+"""
+Here's some formalism to introduce into the problem to try and make it more concrete:
 
-test_items4 = [
-    {"weight": 2, "value": 20},
-    {"weight": 2, "value": 20},
-    {"weight": 2, "value": 20},
-    {"weight": 2, "value": 20},
-    {"weight": 10, "value": 50}
-]
+First, let's sort all items by descending (ascending?) value.
 
-test_items5 = [
-    {"weight": 25, "value": 350},
-    {"weight": 35, "value": 400},
-    {"weight": 45, "value": 450},
-    {"weight": 5, "value": 20},
-    {"weight": 25, "value": 70},
-    {"weight": 3, "value": 8},
-    {"weight": 2, "value": 5},
-    {"weight": 2, "value": 5}
-]
+Example:
 
-test_items6 = [
-    {"weight": 70, "value": 135},
-    {"weight": 73, "value": 139},
-    {"weight": 77, "value": 149},
-    {"weight": 80, "value": 150},
-    {"weight": 82, "value": 156},
-    {"weight": 87, "value": 163},
-    {"weight": 90, "value": 173},
-    {"weight": 94, "value": 184},
-    {"weight": 98, "value": 192},
-    {"weight": 106, "value": 201},
-    {"weight": 110, "value": 210},
-    {"weight": 113, "value": 214},
-    {"weight": 115, "value": 221},
-    {"weight": 118, "value": 229},
-    {"weight": 120, "value": 240}
-]
+Items ---  $40 - 5 lbs, $30 - 3 lbs, $20 - 1 lbs, $19 - 3 lbs
+Index ---      3      ,     2      ,     1      ,     0  
 
-# Testing with 15 items takes forever due to ~15! = 1,307,674,368,000 (1.3 trillion) recursive calls. Need to memoize/cache results.
-print(maximum_value(750, test_items6))
+Let k(lim, i) be the maximum value that can be carried with a weight limit of `lim` and considering all items up to the ith item.
+So k(5, 2) means to only consider items at positions 0, 1 and 2 with a weight limit of 5.
+
+Then k(lim, i) = max (
+    # Option 1: Take the ith item and now consider remaining items
+    k(lim - weight_i, i - 1) + value_i
+
+    ,
+
+    # Option 2: Ignore the ith item and only consider remaining items
+    k(lim, i-1) 
+)
+"""
+
+def maximum_value_dp(lim, items):
+    """
+        Returns maximum value.
+        Assumes items are sorted by value descending.
+    """
+
+    cache = {}
+    items.sort(key=lambda item: item['value'], reverse=False) # sorts items in ascending order by value
+
+    def subproblem(lim, i):
+ 
+        if len(items) == 0:
+            return 0
+    
+        if lim <= 0:
+            return 0
+
+        if (lim, i) in cache: return cache[(lim, i)]
+
+        item = items[i]
+        item_weight = item['weight']
+        item_value = item['value']
+
+        # Option 1: we take the ith item
+
+        if item_weight > lim: value_take = 0
+        else: 
+            if i == 0: #  no more items to take
+                value_take = item_value
+            else:
+                value_take = item_value + subproblem(lim - item_weight, i - 1)
+
+        # Option 2: we don't take the ith item
+        if i == 0: # no more remaining items
+            value_leave = 0
+        else:
+            value_leave = subproblem(lim, i - 1)
+
+        optimal = max(value_take, value_leave)
+        cache[(lim, i)] = optimal
+        
+        return optimal
+
+    maximum_value = subproblem(lim, len(items) - 1)
+    return maximum_value
+
+# Reflections after working on the above solution.
+# I ran this and I legitimately jumped out of my chair when it passed all the tests.
+# I honestly cannot believe that it ran successfully.
+# I tested it on the complex cases in test_knapsack.py and it solved it in just a couple hundred milliseconds, whereas I'm pretty sure I needed to leave my computer on for days to get the answer with the first solution.
+# 
+# So why is it so much faster?
+# 1. No more for-loops. Just rely on recursion to "loop". 
+# 2. Also, I implement memoizing/caching now (but that's a more minor minor reason)
+# 3. I also sorted items but I don't think that makes any practical difference whatsoever.
+
+# I ended up combining all of the 3 things I mentioned wanting to try into one solution.
+# My sense is that the time complexity of this algorithm is 2^n, where n is the length of the items, as each recursive call has to make two more recursive calls, growing exponentially.
