@@ -122,7 +122,7 @@ def maximum_value(weight_limit, items):
 
 
 # Day 2:
-# I have a few ideas:
+# I had a few ideas during my morning shower:
 # (1) memoize/cache to speed up the previous day's results
 # (2) do some sorting/pruning early on in the problem to speed up results
 # (3) I recently read Avik Das' description on Dynamic Programming (found on Reddit's r/algorithms) here: https://avikdas.com/2019/04/15/a-graphical-introduction-to-dynamic-programming.html
