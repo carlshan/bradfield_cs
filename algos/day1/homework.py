@@ -75,7 +75,7 @@ import copy
 # It took me a little bit of time to realize I had to add the `if weight_limit - item_weight >= 0` condition in the for-loop.
 # I also believe this is a O(N!) (yikes!) solution. It doesn't even finish running on 15 items (15! is ~1.3tn)
 # My next thoughts are to cache results to speed things up.
-def maximum_value(weight_limit, items):
+def maximum_value_loop(weight_limit, items):
     """
         Returns maximum value given the items
 
@@ -154,7 +154,7 @@ Then k(lim, i) = max (
 )
 """
 
-def maximum_value_dp(lim, items):
+def maximum_value(lim, items):
     """
         Returns maximum value.
         Assumes items are sorted by value descending.
