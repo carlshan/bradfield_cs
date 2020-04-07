@@ -156,14 +156,14 @@ class Queue(object):
     def size(self):
         return len(self._items)
         
-q = Queue()
-q.enqueue(5)
-q.enqueue('abc')
-q.enqueue(12345)
-q.enqueue('apple')
+# q = Queue()
+# q.enqueue(5)
+# q.enqueue('abc')
+# q.enqueue(12345)
+# q.enqueue('apple')
 
-while not q.is_empty():
-   print(q.dequeue())
+# while not q.is_empty():
+#    print(q.dequeue())
 
 # Exercise 4. Implement a Deque
 class Dequeue(object):
@@ -230,8 +230,10 @@ def check_palindrome(string):
     return True
     
 
-should_run_tests = True 
+
+
 if __name__ == "__main__":
+    should_run_tests = True 
     if should_run_tests:
         run_tests(is_balanced, balanced_tests)
         run_tests(check_palindrome, palindrome_tests)

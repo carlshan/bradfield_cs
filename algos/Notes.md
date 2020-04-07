@@ -58,7 +58,7 @@ The key methods to a deque are:
 * size() returns the number of items in the deque. It needs no parameters and returns an integer.
 
 ## Lists
-A list is not the same as a Python list (which should better be called as an array). Rather it cannot hold duplicate items and can hold references to the next node and previous node in a list.
+A list is not the same as a Python list (which should better be called as an array). Rather it holds references to the next node and previous node in a list.
 
 A list where each of the nodes holds only a reference to the next node is called singly-linked. A node that holds both references to the next and previous nodes are called "doubly-linked".
 
@@ -101,7 +101,7 @@ Implementing a queue using an array:
 * .pop() -> O(1) as we only need the last item
 * .dequeue() -> O(N) as we need to delete the first element, but then copy all of the original elements over by one
 
-Implementing using a doubly-linked list:
+Implementing a queue using a doubly-linked list:
 * .push() -> O(N) as we need to traverse the list to find the last element to push onto
 * .pop() -> O(N) as we need to traverse the list to get to the end 
 * .dequeue -> O(1) as we just need to update the pointer of head to the new node, and have the new node point to the previous head, and update the previous head to have a link to the new head. We don't need to touch any of the remaining nodes.
