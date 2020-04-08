@@ -105,3 +105,47 @@ Implementing a queue using a doubly-linked list:
 * .push() -> O(N) as we need to traverse the list to find the last element to push onto
 * .pop() -> O(N) as we need to traverse the list to get to the end 
 * .dequeue -> O(1) as we just need to update the pointer of head to the new node, and have the new node point to the previous head, and update the previous head to have a link to the new head. We don't need to touch any of the remaining nodes.
+
+## [Hashing](https://bradfieldcs.com/algos/searching/hashing/)
+
+Hashing is a concept that, among other things, allows us to search a data structure in `O(1)` constant time. A **hash table**. is a collection of items that is organized in such a way where there are "slots" with "names". A special way of assigning values to slots is done through a "hash function" `H(value)`.
+
+When you want to access a value in the hash table, simply compute `H(value)` and that will return the correct "name" or "address" of the item, allowing you to retreive it without regard for e.g., the size of the hash table.
+
+Intended ideal behavior of the hash function:
+* 1-1 mapping between input values and resulting outputs. No two inputs should map to the same output and each input should map to only one output.
+* It returns the address of a specific slot in our hash table (this is where module arithmetic will help).
+
+There are a few different ways to construct a hash function that behaves the way we want:
+
+1. *Folding method:* Divide your data into chunks, add up the results and `mod` the result by the size of your hash table to figure out the correct address. E.g., the phone number `436-555-4601` can get broken up into `(43, 65, 55, 46, 01)` which can be summed and modded. 
+2. *Mid-square method:* Square the value, then extract some portion of the remainnig digits, followed by modding it.
+3. *Treating characters as numbers*: `sum(ord(c) for c in string)` can be hashed.
+
+
+### What happens if there are collisions?
+
+There are some strategies to resolve hash collisions. One is called *linear probing.* Essentially, if a collision occurs the technique looks at the nearby values for the next open slot. However, this strategy may produce clustering of values and subsequent lookups of values that have collisions will also require linear search.
+
+There is also *quadratic probing* where the number of slots skipped increases quadratically.
+
+Another method for handling collisions is to allow each slot to hold a reference to another set of values, such as a linked list.  
+
+**Cuckoo Hashing**
+Yet another way is to implement [Cuckoo hashing](https://blog.bradfieldcs.com/an-introduction-to-hashing-in-the-era-of-machine-learning-6039394549b0). Essentially, this technique maintains two hash functions for two different memory addresses: call them `primary` and `secondary` functions for the corresponding addresses.
+
+In the beginning, use the `primary` hash function to hash to the primary allocated addresses. If there is a collision, evict the current value and replace it with the new one. Now hash the evicted value with the `secondary` function to the new address space. 
+
+## [Priority Queues with Binary Heaps](https://bradfieldcs.com/algos/trees/priority-queues-with-binary-heaps/)
+
+A priority queue is similar to a queue, with the main exception being that the logical order of items inside is queue is determined by their "priority." 
+
+One way to implement it is to use a data structure called a `binary heap`, which will allow enqueue and dequeue operations to take `O(logn)` time. A `binary heap` has two variations: **min heap** and **max heap.** The difference between them is where the *key* is located. In a **min heap** the smallest key is always at the front. Whereas in a **max heap** the largest key is located in the front.
+
+### Structure of a Binary Heap
+
+In order for the heap to be efficient, it needs to be "balanced" in that the there should roughly be the same number of nodes in the left and right subtrees.
+
+
+
+
