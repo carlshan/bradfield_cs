@@ -145,7 +145,3 @@ One way to implement it is to use a data structure called a `binary heap`, which
 ### Structure of a Binary Heap
 
 In order for the heap to be efficient, it needs to be "balanced" in that the there should roughly be the same number of nodes in the left and right subtrees.
-
-
-
-
