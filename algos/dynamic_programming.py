@@ -72,6 +72,12 @@ def solve_problem_recursive(N, heights):
     memory = {}
 
     def minimum_cost(N, heights):
+        """
+            This is the immediate recursive solution I have in my head without
+            thinking about any DP.
+
+            I memoize to increase runtime as well.
+        """
         mem_key = str(N) + str(heights)
         if mem_key in memory: return memory[mem_key]
         if N == 1:
@@ -90,6 +96,28 @@ def solve_problem_recursive(N, heights):
 
 
 def solve_problem_dp(N, heights):
+    """
+        I came to this solution after noodling for a little bit with a pen and paper.
+        The key insight was to create an array holding costs, and to use that to 
+        calculate future costs.
+
+        The best cost of jumping to stone i =
+            min(
+                 best cost jumping from 1 stone before
+                , best cost jumping from 2 stones before
+                )
+        And each of those costs resolve into the recursive definitions I discovered in applying the 3 step
+        strategies:
+
+        Well, if the frog jumped over one, then the C_n = | h_i - h_{i+1} | + C_{n-1} with the remaining heights
+        And if the frog jumped over two, then it would be: C_n = | h_i - h_{i+1} | + C_{n-2}
+
+        The minimum between these two is the jump the frog should make.
+    
+        I think the key insight here is to not think from "ending up on the last stone" but rather
+        thinking "linearly" and jumping and always making "the best move" and keeping track
+        of the best possible cost of ending up on the current stone.
+    """
     if N == 1:
         return 0
     elif N == 2:
