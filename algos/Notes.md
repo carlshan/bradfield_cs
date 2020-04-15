@@ -145,3 +145,66 @@ One way to implement it is to use a data structure called a `binary heap`, which
 ### Structure of a Binary Heap
 
 In order for the heap to be efficient, it needs to be "balanced" in that the there should roughly be the same number of nodes in the left and right subtrees.
+
+## Dynamic Programming
+What is dynamic programming?
+
+DP describes a problem-solving technique that is best applied to problems where there are overlapping sub-problems, oftentimes with a recursive structure.
+
+The advantage of using DP instead of recursive techniques is that they may oftentimes be much more efficient in both time and space.
+
+The key steps for solving a problem using dynamic programming are the following:
+
+1. Define the subproblems
+2. Write down the recurrence that relates the subproblems
+3. Recognize and solve the base cases.
+
+Let's apply the above three steps in an example:
+
+**Problem:** Given `n`, find the number of different ways to write `n` as the sum of `1`, `3`, and `4`.
+
+Example: for `n=5`, the answer is `6`:
+
+```
+5 = 1 + 1 + 1 + 1 + 1
+  = 1 + 1 + 3
+  = 1 + 3 + 1
+  = 3 + 1 + 1
+  = 1 + 4
+  = 4 + 1
+```
+
+Let's apply each of the DP steps one-by-one:
+
+### Step 1: Define the Subproblems
+
+- Let $D_n$ be the number of ways to write `n` as the sum of `1`, `3`, and `4`.
+- Let one possible solution be $n = x_1 + x_2 + ... + x_m$
+- Consider if $x_m = 1$ then the rest of the terms must sum to $n-1$
+
+### Step 2: Find the recurrence
+
+- Therefore the number of sums that end with $x_m$ is $D_{n-1}$
+- Now, apply the same reasoning to the other possible numbers `3` and `4`.
+- The recursive structure is therefore $D_n = D_{n-1} + D_{n-3} + D_{n-4}$.
+
+### Step 3: Recognize and solve the base cases
+
+- If $n < 0$ then $D_n=0$
+- If $n=0$ then $D_n=1$
+- If $n=1$ then $D_n=1$
+- If $n=2$ then $D_n=1$
+- If $n=3$ then $D_n=2$
+
+So in pseudo-code then:
+
+```
+D[0] = D[1] = D[2] = 1; D[3] = 2
+
+for (i = 4; i <= n; i ++) {
+    D[i] = D[i-1] + D[i-3] + D[i-4];
+}
+
+```
+
+Note that the above solution takes into account the recursive recurrence structure but does not implement a recursive solution.
