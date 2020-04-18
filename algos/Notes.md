@@ -10,7 +10,7 @@ What distinguishes linear data structures from one another is where additions an
 
 A "stack" evokes a stack of e.g., books or plates. That metaphor is helpful for remembering the key property of stacks that distinguishes it from other linear data structures: removals and additions happen on the same end, and only on that end. That end is typically called "the top" of the stack. Newer items are put "on top" of the stack, so as you go down (or "deeper") into the stack, you reach older items.
 
-As a result, we reach one of the key features of a stack: the insertion order is the opposite of the removal order. 
+As a result, we reach one of the key features of a stack: the insertion order is the opposite of the removal order.
 
 The key methods a stack has are:
 
@@ -22,6 +22,7 @@ The key methods a stack has are:
 * .size() returns the number of items on the stack as an integer.
 
 ### What are some clues that we should use a Stack data structure to solve a problem?
+
 When processing a sequence of data and there is some sense of one element needs to interact with the first subsequent element that meets a condition (e.g., an opening parenthesis that needs a closing paranthesis).
 
 ## Queues
@@ -39,10 +40,12 @@ The key methods to a queue are:
 * size() returns the number of items in the queue. It needs no parameters and returns an integer.
 
 ### What are some clues that we should use a Queue data structure?
+
 When there's some circularity, where the person at the front of the line goes to the back.
-When we need to process data from the earliest to the last. 
+When we need to process data from the earliest to the last.
 
 ## Dequeues
+
 Deques can be modified from both the rear and the front by both dding and removing items.
 
 It is called a "deque" as it is a double-ended queue.
@@ -58,6 +61,7 @@ The key methods to a deque are:
 * size() returns the number of items in the deque. It needs no parameters and returns an integer.
 
 ## Lists
+
 A list is not the same as a Python list (which should better be called as an array). Rather it holds references to the next node and previous node in a list.
 
 A list where each of the nodes holds only a reference to the next node is called singly-linked. A node that holds both references to the next and previous nodes are called "doubly-linked".
@@ -76,34 +80,35 @@ The key methods to a list are:
 * pop() removes and returns the last item in the list. It needs nothing and returns an item. Assume the list has at least one item.
 * pop(pos) removes and returns the item at position pos. It needs the position and returns the item. Assume the item is in the list.
 
-### Homework Questions:
+### Homework Questions
+
 In consider all of the data structures we've learned, answer the following two questions:
 
 > 1. What is the difference between an abstract data type and an implementation of a data structure?
-> 
-> 2. Consider two implementations of the queue abstract data type, one implemented using a dynamic array 
-> and the other as a doubly linked list. What is the Big O complexity of the push and pop operations? 
-> Other than Big O complexity, can you think of any potential performance differences between the two? 
-
+>
+> 2. Consider two implementations of the queue abstract data type, one implemented using a dynamic array
+> and the other as a doubly linked list. What is the Big O complexity of the push and pop operations?
+> Other than Big O complexity, can you think of any potential performance differences between the two?
 
 **Question 1.**
 
 The difference between an abstract data type (ADT) and an implementation is similar to the difference between a blueprint for a building, and the actual building. Or between a language specification (e.g., Python) and the particular choice of implementation for that specification (e.g., CPython, PyPy, IronPython).
 
-One describes the key logical properties of the system. And the other is the actual derived implementation of this description. 
+One describes the key logical properties of the system. And the other is the actual derived implementation of this description.
 
-The ADT is the abstraction that, during system design, allows problem-solvers to consider solutions independent of a particular implementation. 
-
+The ADT is the abstraction that, during system design, allows problem-solvers to consider solutions independent of a particular implementation.
 
 **Question 2.**
 Implementing a queue using an array:
+
 * .push() -> O(1) as we only need to put the new item at the end
 * .pop() -> O(1) as we only need the last item
 * .dequeue() -> O(N) as we need to delete the first element, but then copy all of the original elements over by one
 
 Implementing a queue using a doubly-linked list:
+
 * .push() -> O(N) as we need to traverse the list to find the last element to push onto
-* .pop() -> O(N) as we need to traverse the list to get to the end 
+* .pop() -> O(N) as we need to traverse the list to get to the end
 * .dequeue -> O(1) as we just need to update the pointer of head to the new node, and have the new node point to the previous head, and update the previous head to have a link to the new head. We don't need to touch any of the remaining nodes.
 
 ## [Hashing](https://bradfieldcs.com/algos/searching/hashing/)
@@ -113,15 +118,15 @@ Hashing is a concept that, among other things, allows us to search a data struct
 When you want to access a value in the hash table, simply compute `H(value)` and that will return the correct "name" or "address" of the item, allowing you to retreive it without regard for e.g., the size of the hash table.
 
 Intended ideal behavior of the hash function:
+
 * 1-1 mapping between input values and resulting outputs. No two inputs should map to the same output and each input should map to only one output.
 * It returns the address of a specific slot in our hash table (this is where module arithmetic will help).
 
 There are a few different ways to construct a hash function that behaves the way we want:
 
-1. *Folding method:* Divide your data into chunks, add up the results and `mod` the result by the size of your hash table to figure out the correct address. E.g., the phone number `436-555-4601` can get broken up into `(43, 65, 55, 46, 01)` which can be summed and modded. 
+1. *Folding method:* Divide your data into chunks, add up the results and `mod` the result by the size of your hash table to figure out the correct address. E.g., the phone number `436-555-4601` can get broken up into `(43, 65, 55, 46, 01)` which can be summed and modded.
 2. *Mid-square method:* Square the value, then extract some portion of the remainnig digits, followed by modding it.
 3. *Treating characters as numbers*: `sum(ord(c) for c in string)` can be hashed.
-
 
 ### What happens if there are collisions?
 
@@ -129,16 +134,16 @@ There are some strategies to resolve hash collisions. One is called *linear prob
 
 There is also *quadratic probing* where the number of slots skipped increases quadratically.
 
-Another method for handling collisions is to allow each slot to hold a reference to another set of values, such as a linked list.  
+Another method for handling collisions is to allow each slot to hold a reference to another set of values, such as a linked list.
 
 **Cuckoo Hashing**
 Yet another way is to implement [Cuckoo hashing](https://blog.bradfieldcs.com/an-introduction-to-hashing-in-the-era-of-machine-learning-6039394549b0). Essentially, this technique maintains two hash functions for two different memory addresses: call them `primary` and `secondary` functions for the corresponding addresses.
 
-In the beginning, use the `primary` hash function to hash to the primary allocated addresses. If there is a collision, evict the current value and replace it with the new one. Now hash the evicted value with the `secondary` function to the new address space. 
+In the beginning, use the `primary` hash function to hash to the primary allocated addresses. If there is a collision, evict the current value and replace it with the new one. Now hash the evicted value with the `secondary` function to the new address space.
 
 ## [Priority Queues with Binary Heaps](https://bradfieldcs.com/algos/trees/priority-queues-with-binary-heaps/)
 
-A priority queue is similar to a queue, with the main exception being that the logical order of items inside is queue is determined by their "priority." 
+A priority queue is similar to a queue, with the main exception being that the logical order of items inside is queue is determined by their "priority."
 
 One way to implement it is to use a data structure called a `binary heap`, which will allow enqueue and dequeue operations to take `O(logn)` time. A `binary heap` has two variations: **min heap** and **max heap.** The difference between them is where the *key* is located. In a **min heap** the smallest key is always at the front. Whereas in a **max heap** the largest key is located in the front.
 
@@ -147,6 +152,7 @@ One way to implement it is to use a data structure called a `binary heap`, which
 In order for the heap to be efficient, it needs to be "balanced" in that the there should roughly be the same number of nodes in the left and right subtrees.
 
 ## Dynamic Programming
+
 What is dynamic programming?
 
 DP describes a problem-solving technique that is best applied to problems where there are overlapping sub-problems, oftentimes with a recursive structure.
@@ -165,7 +171,7 @@ Let's apply the above three steps in an example:
 
 Example: for `n=5`, the answer is `6`:
 
-```
+```python
 5 = 1 + 1 + 1 + 1 + 1
   = 1 + 1 + 3
   = 1 + 3 + 1
@@ -198,13 +204,37 @@ Let's apply each of the DP steps one-by-one:
 
 So in pseudo-code then:
 
-```
+```javascript
 D[0] = D[1] = D[2] = 1; D[3] = 2
 
 for (i = 4; i <= n; i ++) {
     D[i] = D[i-1] + D[i-3] + D[i-4];
 }
-
 ```
 
 Note that the above solution takes into account the recursive recurrence structure but does not implement a recursive solution.
+
+## [Binary Search](https://bradfieldcs.com/algos/searching/the-binary-search/)
+
+If a list is ordered, we do not need to search in sequential $O(N)$ time, but rather search in $O(\log_{2}N)$ time.
+
+We can achieve this by doing something called binary search. The way it works:
+
+1. Start by examining the middle item.
+2. If that item is not correct, we can eliminate half of the remaining items.
+3. Repeat this by examining the middle of the remaining half.
+
+### Homework
+
+1. Hashing and binary search both address the same problem: finding an item in a collection. What are some trade-offs between the two strategies? When might you want to pick one over the other?
+2. If sorting takes (at minimum) $O(n\log_{2} n)$ time, and binary search takes $O(\log_{2} n)$ time, under what circumstances might it worth it to sort a collection in order to perform binary search?
+
+**Responses:**
+
+1. Some comparisons and contrasts between hashing and binary seaching:
+   * With hashing, you can lookup objects that don't have some natural "ordering" like numbers do, whereas for binary search to work there needs to be some definition of an "order" so that you compare "greater" or "less than."
+   * If the cost of sorting $N$ items is heavier than just hashing all items, you may just want to go with hashing.
+   * Vice versa. If it is computationally expensive to hash certain items (maybe long strings?) then sorting may be better.
+   * For binary search, once you've sorted you can use it for other purposes and build other data structures that may rely on sorted data.
+   * If you sort in place, you don't use additional memory, unlike with hashing.
+2. If we expect to amortize the cost of $O(nlog_{2}n)$ sort over many fast $O(log_{2}n)$ searches, we may be okay sorting the collection in order to perform binary search. Similarly if future tasks may require sorting the data.
