@@ -61,11 +61,11 @@ If N = 1, then C_n = 0 <- do not need to jump
 
 """
 
-N = input() 
-heights = input()
+# N = input() 
+# heights = input()
 
-N = int(N)
-heights = list(map(int, heights.split(' ')))
+# N = int(N)
+# heights = list(map(int, heights.split(' ')))
 
 
 def solve_problem_recursive(N, heights):
@@ -76,7 +76,7 @@ def solve_problem_recursive(N, heights):
             This is the immediate recursive solution I have in my head without
             thinking about any DP.
 
-            I memoize to increase runtime as well.
+            I memoize to decrease runtime as well.
         """
         mem_key = str(N) + str(heights)
         if mem_key in memory: return memory[mem_key]
@@ -103,7 +103,7 @@ def solve_problem_dp(N, heights):
 
         The best cost of jumping to stone i =
             min(
-                 best cost jumping from 1 stone before
+                  best cost jumping from 1 stone before
                 , best cost jumping from 2 stones before
                 )
         And each of those costs resolve into the recursive definitions I discovered in applying the 3 step
@@ -118,10 +118,6 @@ def solve_problem_dp(N, heights):
         thinking "linearly" and jumping and always making "the best move" and keeping track
         of the best possible cost of ending up on the current stone.
     """
-    if N == 1:
-        return 0
-    elif N == 2:
-        return abs(heights[0] - heights[1])
     costs = [0] * len(heights)
     costs[1] = abs(heights[0] - heights[1])
 
@@ -134,4 +130,66 @@ def solve_problem_dp(N, heights):
     return costs[-1]
 
 
-print(solve_problem_dp(N, heights))
+def solve_problem_dp2(N, heights):
+    """
+        Same solution but going backwards from the last stone:
+
+        Let the array D hold elements d_i where 0 <= i < N
+        with each d_i being the minimum cost it takes to get from the ith stone to the last Nth stone
+
+        The way this array can be created is to start from the second to last stone
+        and calculate.
+
+    """
+    # Cost of last stone is 0 because it is the Nth stone
+    D = [0] * len(heights)
+    last_index = len(heights) - 1
+
+    # Cost of second to last stone is simply the difference between the last height and the second to last height
+    height_N = heights[last_index]
+    D[-2] = abs(height_N - heights[-2])
+
+    i = len(heights) - 3 # start i at the 2nd to last stone
+    while i >= 0:
+        jump_one = abs(heights[i] - heights[i+1]) + D[i+1]
+        jump_two = abs(heights[i] - heights[i+2]) + D[i+2]
+        D[i] = min(jump_one, jump_two)  
+        i -= 1
+
+    return D[0]
+
+print("Minimum Cost: ", solve_problem_dp2(test1_N, test1_heights))
+print("Minimum Cost: ", solve_problem_dp2(test2_N, test2_heights))
+print("Minimum Cost: ", solve_problem_dp2(test3_N, test3_heights))
+
+"""
+There are N stones, numbered 1 , 2 , … , N . For each i ( 1 ≤ i ≤ N ), the height of Stone i is h_i . 
+There is a frog who is initially on Stone 1 . 
+
+He will repeat the following action some number of times to reach Stone N : 
+If the frog is currently on Stone i , jump to one of the following: Stone i + 1 , i + 2 , … , i + K . 
+Here, a cost of | h_i − h_j | is incurred, where j is the stone to land on. 
+
+Find the minimum possible total cost incurred before the frog reaches Stone N .
+
+
+Basically the same poblem as Frog 1 except there's now an addition parameter, which is that the 
+frog can jump up K stones away.
+
+
+Ideas:
+* I can just abstract the solution to Frog 1 a bit so that it generalizes to K stones away.
+* But now I also suspect this is a 2-Dimensional dynamic programming problem.
+"""
+
+def solve_frogs2(N, heights, K):
+    
+    costs = [0] * len(heights)
+    costs[1] = abs(heights[1] - heights[0])
+    costs[2] = min(abs(heights[1] - heights[2]) + costs[1], abs(heights[2] - heights[0]))
+
+    for i in range(K, len(heights)):
+        # calculate all the possible K jumps and costs
+        best_cost = min(all_costs)
+        costs[i]
+    pass
