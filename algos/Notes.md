@@ -238,3 +238,17 @@ We can achieve this by doing something called binary search. The way it works:
    * For binary search, once you've sorted you can use it for other purposes and build other data structures that may rely on sorted data.
    * If you sort in place, you don't use additional memory, unlike with hashing.
 2. If we expect to amortize the cost of $O(nlog_{2}n)$ sort over many fast $O(log_{2}n)$ searches, we may be okay sorting the collection in order to perform binary search. Similarly if future tasks may require sorting the data.
+
+## [Divide and Conquer](https://my.bradfieldcs.com/algorithms/2020-04/divide-and-conquer/)
+
+This week will focus primarily on how to use divide and conquer strategies in the context of sorting.
+
+### Bubble Sort
+
+Bubble sort works by scanning through the array, exchanging adjascent items that are out of order.
+
+Casually speaking, the algorithm can be described as follows:
+
+1. Loop through your array starting from the end. Call the current loop iteration $j$.
+2. In each loop, loop through the beginning until the $j$th element.
+3. In this inner loop, check to see if neighboring elements are in the correct order. If not, swap them.
