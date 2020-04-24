@@ -10,10 +10,10 @@ def interleave(l1, l2, counter):
     # to increment the counter ...
     # Also I feel like it introduces greater computational cost due to
     # having to now loop over everything
-    for e1 in l1: # counting num of inversions
-        for e2 in l2:
-            if e1 > e2:
-                counter += 1
+    # for e1 in l1: # counting num of inversions
+    #     for e2 in l2:
+    #         if e1 > e2:
+    #             counter += 1
 
     while i < len(l1) and j < len(l2):
         if l1[i] < l2[j]:
@@ -24,7 +24,7 @@ def interleave(l1, l2, counter):
             # was insufficient due to not counting
             # cases where further elements in l1 needed to be
             # compared with previous cases in l2 that have already been appended
-            # counter += 1
+            counter += 1
             result.append(l2[j])
             j += 1
 
@@ -98,5 +98,9 @@ sorted_arr, counter = count_inversions(test_arr)
 print(test_arr, "has", counter, "inversions.")
 
 test_arr = [1, 10, 100, 0, 5, 1000] # 5 inversions
+sorted_arr, counter = count_inversions(test_arr)
+print(test_arr, "has", counter, "inversions.")
+
+test_arr = [1, 5, 0, 2] # 3 inversions
 sorted_arr, counter = count_inversions(test_arr)
 print(test_arr, "has", counter, "inversions.")
