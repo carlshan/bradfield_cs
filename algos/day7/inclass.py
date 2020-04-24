@@ -6,12 +6,25 @@ def interleave(l1, l2, counter):
     i = 0
     j = 0
 
+    # The below is really ugly and doesn't seem like it's the best way
+    # to increment the counter ...
+    # Also I feel like it introduces greater computational cost due to
+    # having to now loop over everything
+    for e1 in l1: # counting num of inversions
+        for e2 in l2:
+            if e1 > e2:
+                counter += 1
+
     while i < len(l1) and j < len(l2):
         if l1[i] < l2[j]:
             result.append(l1[i])
             i += 1
         else:
-            counter += 1
+            # I tried incrementing the counter here, but it
+            # was insufficient due to not counting
+            # cases where further elements in l1 needed to be
+            # compared with previous cases in l2 that have already been appended
+            # counter += 1
             result.append(l2[j])
             j += 1
 
@@ -55,6 +68,15 @@ def count_inversions(l):
     sorted_arr, counter = mergesort(l, 0)
     return sorted_arr, counter
 
+def count_inversions_brute_force(l):
+    counter = 0
+    # brute force
+    for i in range(0, len(l)):
+        for j in range(i, len(l)):
+            if l[i] > l[j]:
+                counter += 1
+    return counter
+
 test_arr = [2, 10, -1, 100] # 2 inversions
 sorted_arr, counter = count_inversions(test_arr)
 print(test_arr, "has", counter, "inversions.")
@@ -71,7 +93,7 @@ test_arr = [1000, 10, 1, 100] # 4 inversions
 sorted_arr, counter = count_inversions(test_arr)
 print(test_arr, "has", counter, "inversions.")
 
-test_arr = [1000, 0, 10, -2, 1, 100] # 5 inversions
+test_arr = [1000, 0, 10, -2, 1, 100] # 8 inversions
 sorted_arr, counter = count_inversions(test_arr)
 print(test_arr, "has", counter, "inversions.")
 
