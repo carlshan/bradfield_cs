@@ -6,27 +6,14 @@ def interleave(l1, l2, counter):
     i = 0
     j = 0
 
-    # The below is really ugly and doesn't seem like it's the best way
-    # to increment the counter ...
-    # Also I feel like it introduces greater computational cost due to
-    # having to now loop over everything
-    # for e1 in l1: # counting num of inversions
-    #     for e2 in l2:
-    #         if e1 > e2:
-    #             counter += 1
-
     while i < len(l1) and j < len(l2):
         if l1[i] < l2[j]:
             result.append(l1[i])
             i += 1
-        else:
-            # I tried incrementing the counter here, but it
-            # was insufficient due to not counting
-            # cases where further elements in l1 needed to be
-            # compared with previous cases in l2 that have already been appended
-            counter += 1
+        else: # left array is greater so take element from right
             result.append(l2[j])
             j += 1
+            counter += len(l1) - i # increment counter the number of elements in left that right skips past
 
     while i < len(l1):
         result.append(l1[i])
@@ -102,5 +89,9 @@ sorted_arr, counter = count_inversions(test_arr)
 print(test_arr, "has", counter, "inversions.")
 
 test_arr = [1, 5, 0, 2] # 3 inversions
+sorted_arr, counter = count_inversions(test_arr)
+print(test_arr, "has", counter, "inversions.")
+
+test_arr = [2, 0, 1] # 2 inversions
 sorted_arr, counter = count_inversions(test_arr)
 print(test_arr, "has", counter, "inversions.")
