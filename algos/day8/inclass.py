@@ -92,6 +92,8 @@ def recover(end, graph):
 
 def recover2(start, end, came_from):
     # Using the `came_from` return value to recover the path
+    # I came to this function after reading Amit Patel's suggestions
+    # for the pre-work for the subsequent class
     path = []
     curr = end
     while curr != start:
