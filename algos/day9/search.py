@@ -14,6 +14,7 @@ explored = {
 """
 from pprint import pprint
 from collections import deque
+from constants import *
 
 def get_neighbors(start, grid):
     """
@@ -133,8 +134,41 @@ def dfs(grid, start, goal):
 
     return explored
 
+import heapq
+
+def get_cost(coord, grid):
+    return COSTS[get_element(coord, grid)]
+
 def ucs(grid, start, goal): # aka dijkstra
-    pass
+    pq = [(0, start)]
+
+    explored = dict()
+    explored[start] = None
+
+    costs = dict()
+    costs[start] = 0
+
+    while len(pq) > 0:
+        curr_cost, curr = heapq.heappop(pq)
+
+        if curr == goal:
+            break
+
+        if curr_cost > costs[curr]:
+            continue
+
+        neighbors = get_neighbors(curr, grid)
+
+        for neighbor in neighbors:
+            cost = curr_cost + get_cost(neighbor, grid)
+            if neighbor not in costs or costs < costs[neighbor]:
+                costs[neighbor] = cost
+                heapq.heappush(pq, (cost, neighbor))
+
+                if neighbor not in explored:
+                    explored[neighbor] = curr
+
+    return explored
 
 def a_star(grid, start, goal):
     pass

@@ -70,6 +70,7 @@ def bfs_search(graph, start, end):
 # print(bfs_search(graph, 1, 4))
 
 def recover(end, graph):
+    # This was the first method I came up with to bruteforce the path from start to end
     # given a graph and ending state, find the sequence of events that led to it from (0, 0)
     # used in the following water jug puzzle
     # another thought: each answer in the solution should only have 1 unique parent state
@@ -92,8 +93,10 @@ def recover(end, graph):
 
 def recover2(start, end, came_from):
     # Using the `came_from` return value to recover the path
-    # I came to this function after reading Amit Patel's suggestions
+    # I came to simpler method after reading Amit Patel's suggestions
     # for the pre-work for the subsequent class
+    # However it did require modification of my solve_puzzle() function to also
+    # use a came_from dictionary
     path = []
     curr = end
     while curr != start:
@@ -132,10 +135,10 @@ def solve_puzzle(A, B, target):
         option2 = (jug1, B)
         # option 3: fill up jug1 with jug2 as much as you can
         remaining_A = A - jug1
-        remaining_B = B - jug2
         max_fill_jug1 = min(remaining_A, jug2)
         option3 = (jug1 + max_fill_jug1, jug2 - max_fill_jug1)
         # option 4: fill up jug2 with jug1 as much as you can
+        remaining_B = B - jug2
         max_fill_jug2 = min(remaining_B, jug1)
         option4 = (jug1 - max_fill_jug2, jug2 + max_fill_jug2)
         # option 5: empty out jug1
@@ -161,6 +164,8 @@ import pprint
 start = (0, 0)
 end = (3, 4)
 print(recover2(start, end, came_from))
+print(graph)
+print(len(graph.keys()))
 
 
 # Definition for a binary tree node.
