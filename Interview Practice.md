@@ -2,6 +2,14 @@
 
 Compiled by Carl Shan.
 
+## General Programming Interview Advice
+
+1. **Listen**: Listen carefully to the problem and repeat the crux of the question back afterwards to ensure complete understanding.
+2. **Offer Examples**: examples of what output a successful program should return, and also offer examples of a failed case, as well as edge cases.
+3. **Problem Solve without Code**: Sketch out a rough solution by hand, vebally explaining your reasoning and assumptions so that the interviewer could correct you.
+4. **Implement in Code**: Write code, explaining how you are translating your solution into code as you go along.
+5. **Ask for Feedback**: Ask for feedback and suggestions for improvement.
+
 ## String Manipulation
 
 1. Write a program that returns whether a string is a pangram. A pangram is a string that contains all 26 letters of the alphabet.
@@ -12,7 +20,7 @@ Compiled by Carl Shan.
 6. Write a function that will return if a string is a rotation of another given string.
 7. Count occurrances of a word in a given string.
 
-## Other Questions
+## Other Questions (with an emphasis on data structures and algorithms)
 
 1. Implement at least 3 different ways of finding the factorial of a number.
 2. Count the number of ways that someone can fill a rectangular tile that is 1xN with some combination of `1x1` blue and `1x2` red pieces. A combination is considered unique if it looks unique.
@@ -27,3 +35,16 @@ Compiled by Carl Shan.
 10. Given a knapsack with a specific carrying capacity `W`, determine the maximium value of items contained in the set `[ { "weight": 5, "value": 10 }, { "weight": 4, "value": 40 }, { "weight": 6, "value": 30 }, { "weight": 4, "value": 50 } ]` or any arbitrary set. (From Exercism).
 11. Given an alphabet, return all `2` letter combinations of this alphabet. Now generalize to `N` letter combinations.
 12. Given a lattice of height `h` and width `w`, how many unique shortest paths exist from the top left corner to the bottom right corner? For example, given a lattice with dimensions `h=w=2`, there are `6` unique paths.
+
+## Other problems (with a focus on building complex software)
+
+1. Implement a simple interactive version of Tic-Tac-Toe
+2. Implement rock-paper-scissors. Now implement an AI that plays RPS better than chance.
+3. Implement a two-player game of [Nim](https://iq.opengenus.org/game-of-nim/). Now implement a program that can be played against. Can you improve this program so that it does better than randomly taking remaining items?
+
+## Other Interviewing Resources:
+
+1. Cracking the Coding Interview by Gayle McDowell
+2. [Interactive Coding Exercises (with Flashcards)](https://github.com/donnemartin/interactive-coding-challenges) by Donne Martin
+3. [Anonymous interviews online](https://interviewing.io/) and live [YouTube videos](https://www.youtube.com/channel/UCNc-Wa_ZNBAGzFkYbAHw9eg).
+4. [How to pass a programming interview](https://triplebyte.com/blog/how-to-pass-a-programming-interview) by TripleByte.
