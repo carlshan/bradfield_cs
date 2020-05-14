@@ -4,7 +4,7 @@ Using questions from: https://atcoder.jp/contests/dp/tasks/dp_a
 
 Other resources:
 1. Slides on DP: https://web.stanford.edu/class/cs97si/04-dynamic-programming.pdf
-2. Progressively hard questions: https://web.stanford.edu/class/cs97si/assn4.html
+2. Progressively harder questions: https://web.stanford.edu/class/cs97si/assn4.html
 3. 31-page chapter from textbook: https://people.eecs.berkeley.edu/~vazirani/algorithms/chap6.pdf
 """
 
@@ -21,7 +21,7 @@ of times to reach stone N:
 * if the frog is currently on stone i, jump to either stone i + 1 or stone i + 2.
     * here, a cost of |h_i - h_j| is incurred, where j is the stone the frog lands on.
 
-Given N and an array of heights, find the _minimum_ possible total cost incurred before 
+Given N and an array of heights, find the _minimum_ possible total cost incurred before
 the frog reaches stone N.
 
 Constraints:
@@ -43,7 +43,7 @@ test3_answer = 40
 
 # Let's apply each step:
 """
-# Step 1: Define the sub-problems 
+# Step 1: Define the sub-problems
 
 Let C_n = the minimum cost of getting to stone N with heights {h_1, ..., h_N}
 
@@ -61,7 +61,7 @@ If N = 1, then C_n = 0 <- do not need to jump
 
 """
 
-# N = input() 
+# N = input()
 # heights = input()
 
 # N = int(N)
@@ -76,10 +76,12 @@ def solve_problem_recursive(N, heights):
             This is the immediate recursive solution I have in my head without
             thinking about any DP.
 
-            I memoize to decrease runtime as well.
+            I memoize to improve runtime as well.
         """
-        mem_key = str(N) + str(heights)
-        if mem_key in memory: return memory[mem_key]
+        mem_key = (N, heights[0])
+        if mem_key in memory:
+            return memory[mem_key]
+
         if N == 1:
             return 0
         elif N == 2:
@@ -91,14 +93,14 @@ def solve_problem_recursive(N, heights):
         best_cost = min(jump_one_cost, jump_two_cost)
         memory[mem_key] = best_cost
         return best_cost
-    
+
     return minimum_cost(N, heights)
 
 
 def solve_problem_dp(N, heights):
     """
         I came to this solution after noodling for a little bit with a pen and paper.
-        The key insight was to create an array holding costs, and to use that to 
+        The key insight was to create an array holding costs, and to use that to
         calculate future costs.
 
         The best cost of jumping to stone i =
@@ -113,7 +115,7 @@ def solve_problem_dp(N, heights):
         And if the frog jumped over two, then it would be: C_n = | h_i - h_{i+1} | + C_{n-2}
 
         The minimum between these two is the jump the frog should make.
-    
+
         I think the key insight here is to not think from "ending up on the last stone" but rather
         thinking "linearly" and jumping and always making "the best move" and keeping track
         of the best possible cost of ending up on the current stone.
@@ -121,12 +123,12 @@ def solve_problem_dp(N, heights):
     costs = [0] * len(heights)
     costs[1] = abs(heights[0] - heights[1])
 
-    for i in range(2, len(heights)):
+    for i in range(2, N):
         cost_jump1 = abs(heights[i] - heights[i-1]) + costs[i-1]
-        cost_jump2 = abs(heights[i] - heights[i-2]) + costs[i-2] 
+        cost_jump2 = abs(heights[i] - heights[i-2]) + costs[i-2]
         best_cost = min(cost_jump1, cost_jump2)
         costs[i] = best_cost
-    
+
     return costs[-1]
 
 
@@ -153,27 +155,27 @@ def solve_problem_dp2(N, heights):
     while i >= 0:
         jump_one = abs(heights[i] - heights[i+1]) + D[i+1]
         jump_two = abs(heights[i] - heights[i+2]) + D[i+2]
-        D[i] = min(jump_one, jump_two)  
+        D[i] = min(jump_one, jump_two)
         i -= 1
 
     return D[0]
 
-print("Minimum Cost: ", solve_problem_dp2(test1_N, test1_heights))
-print("Minimum Cost: ", solve_problem_dp2(test2_N, test2_heights))
-print("Minimum Cost: ", solve_problem_dp2(test3_N, test3_heights))
+# print("Minimum Cost: ", solve_problem_dp2(test1_N, test1_heights))
+# print("Minimum Cost: ", solve_problem_dp2(test2_N, test2_heights))
+# print("Minimum Cost: ", solve_problem_dp2(test3_N, test3_heights))
 
 """
-There are N stones, numbered 1 , 2 , … , N . For each i ( 1 ≤ i ≤ N ), the height of Stone i is h_i . 
-There is a frog who is initially on Stone 1 . 
+There are N stones, numbered 1 , 2 , … , N . For each i ( 1 ≤ i ≤ N ), the height of Stone i is h_i .
+There is a frog who is initially on Stone 1 .
 
-He will repeat the following action some number of times to reach Stone N : 
-If the frog is currently on Stone i , jump to one of the following: Stone i + 1 , i + 2 , … , i + K . 
-Here, a cost of | h_i − h_j | is incurred, where j is the stone to land on. 
+He will repeat the following action some number of times to reach Stone N :
+If the frog is currently on Stone i , jump to one of the following: Stone i + 1 , i + 2 , … , i + K .
+Here, a cost of | h_i − h_j | is incurred, where j is the stone to land on.
 
 Find the minimum possible total cost incurred before the frog reaches Stone N .
 
 
-Basically the same poblem as Frog 1 except there's now an addition parameter, which is that the 
+Basically the same poblem as Frog 1 except there's now an addition parameter, which is that the
 frog can jump up K stones away.
 
 
@@ -183,7 +185,7 @@ Ideas:
 """
 
 def solve_frogs2(N, heights, K):
-    
+
     costs = [0] * len(heights)
     costs[1] = abs(heights[1] - heights[0])
     costs[2] = min(abs(heights[1] - heights[2]) + costs[1], abs(heights[2] - heights[0]))
@@ -193,3 +195,47 @@ def solve_frogs2(N, heights, K):
         best_cost = min(all_costs)
         costs[i]
     pass
+
+
+# Taro's Vacation
+# https://atcoder.jp/contests/dp/tasks/dp_c
+test1_input = 3
+test1_happiness_str = """10 40 70
+20 50 80
+30 60 90""".split('\n')
+test1_happiness = list(map(lambda s: list(map(int, s.split(' '))), test1_happiness_str))
+
+N = int(input())
+happiness_matrix = []
+for _ in range(N):
+    row = input()
+    happiness_matrix.append(list(map(int, row.split(' '))))
+
+def solve_vacation(N, happiness_matrix):
+    # Each of the following arrays:
+    # maximum possible happiness BUT we end the day by taking that action
+    # Day 0 -- just choose the best activity
+    last_swim = happiness_matrix[0][0]
+    last_bug = happiness_matrix[0][1]
+    last_homework = happiness_matrix[0][2]
+
+    for i in range(1, N):
+        swim, bug, homework = happiness_matrix[i]
+
+        option1 = last_bug + swim
+        option2 = last_homework + swim
+        best_swim = max(option1, option2)
+
+        option3 = last_swim + bug
+        option4 = last_homework + bug
+        best_bug = max(option3, option4)
+
+        option5 = last_swim + homework
+        option6 = last_bug + homework
+        best_homework = max(option5, option6)
+
+        last_swim, last_bug, last_homework = best_swim, best_bug, best_homework
+
+    return max(best_swim, best_bug, best_homework)
+
+print(solve_vacation(N, happiness_matrix))

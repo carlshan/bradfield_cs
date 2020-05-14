@@ -6,13 +6,13 @@ Prework for Week 1 (March 30) included the following:
 1. Reading a summary of George Polya's How to Solve It: https://math.berkeley.edu/~gmelvin/polya.pdf
 2. Completing the following exercise:
 
-> Apangram is a phrase which contains every letter at least once, such as “the quick brown fox jumps over the lazy dog”. 
+> A pangram is a phrase which contains every letter at least once, such as “the quick brown fox jumps over the lazy dog”.
 > Write a function which determines if a given string is a pangram.
-> This should be an easy problem, so it’s a good excuse to practice Polya’s methoxwd. 
-> So, please find at least three different strategies for solving this problem, proceeding through Polya’s method each time. 
+> This should be an easy problem, so it’s a good excuse to practice Polya’s methoxwd.
+> So, please find at least three different strategies for solving this problem, proceeding through Polya’s method each time.
 > In each case, make a note of how you came to that. Please submit your solutions by Slack to your instructor prior to the start of class.
 
-""" 
+"""
 
 # Approach No. 1 -- Naive, simple approach of checking each letter
 # This is the first approach I thought of when immediately encountering the problem.
@@ -26,7 +26,7 @@ def is_pangram_1(string, alphabet):
     """
     string = string.lower()
 
-    for letter in alphabet: 
+    for letter in alphabet:
         if letter not in string: # downside: has to scan the whole string len(alphabet) times
             return False
 
@@ -69,7 +69,7 @@ def is_pangram_3(string, alphabet):
         else:
             to_scan = to_scan.replace(letter, '') # shortening the string to be scanned each time by stripping out all of the extraneous letters we no longer need to check for
             # although I suppose .replace has to scan to_scan each time as well. If there are a lot of duplications in the string, this can speed things up, else this adds extra overhead.
-    
+
     return True
 
 print(is_pangram_3(test_string_pass, alphabet))
@@ -87,7 +87,7 @@ def is_pangram_4(string, alphabet):
     for letter in alphabet:
         if letter not in seen_letters:
             return False
-    
+
     return True
 
 

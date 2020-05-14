@@ -10,7 +10,7 @@ In this exercise, let's try to solve a classic problem.
 
 Bob is a thief. After months of careful planning, he finally manages to crack the security systems of a high-class apartment.
 
-In front of him are many items, each with a value (v) and weight (w). Bob, of course, wants to maximize the total value he can get; 
+In front of him are many items, each with a value (v) and weight (w). Bob, of course, wants to maximize the total value he can get;
 he would gladly take all of the items if he could. However, to his horror, he realizes that the knapsack he carries with him can only hold so much weight (W).
 
 Given a knapsack with a specific carrying capacity (W), help Bob determine the maximum value he can get from the items in the house. Note that Bob can take only one of each item.
@@ -30,7 +30,7 @@ In this example, Bob should take the second and fourth item to maximize his valu
 
 
 # Step 1: Understanding the problem:
-# > Input = list of dictionaries, each with two keys: weight and value. 
+# > Input = list of dictionaries, each with two keys: weight and value.
 # > Output = list of dictionaries such that the sum of the values for 'weight' keys is under the limit and the sum of the values for the 'value' key is the maximum value given the limit.
 # > Actually after rereading the problem the output is just the maximum value he can take.
 
@@ -62,7 +62,7 @@ Another idea after coming up with Strategy 2:
 Another idea as I was staring at my notebook:
 
 I could graph (weight, value) coordinates and treat them as vectors. I am trying to maximize value subject to weight sums < limit. I probably could use some strategies
-from geometry / vector spaces here (? maybe?). 
+from geometry / vector spaces here (? maybe?).
 Add the coordinates / vectors together?
 """
 
@@ -80,7 +80,7 @@ def maximum_value_loop(weight_limit, items):
         Returns maximum value given the items
 
         Algorithm:
-            Base cases: 
+            Base cases:
                 0. The weight is <= 0, in which case no maximum value can be taken
                 1. There is only one item. Then check if it's possible to take it and if so that is the maximum value. Else it's 0.
                 2. If there are no items, in which case the maximum value is also 0.
@@ -114,9 +114,9 @@ def maximum_value_loop(weight_limit, items):
             total_value = item_value + maximum_value(weight_limit - item_weight, copied_items)
         else: # this path is a dead end, so move onto the next iteration of the loop
             continue
-        
+
         values.append(total_value)
-    
+
     maximum = max(values)
     return maximum
 
@@ -127,7 +127,7 @@ def maximum_value_loop(weight_limit, items):
 # (2) do some sorting/pruning early on in the problem to speed up results
 # (3) I recently read Avik Das' description on Dynamic Programming (found on Reddit's r/algorithms) here: https://avikdas.com/2019/04/15/a-graphical-introduction-to-dynamic-programming.html
 # After reading it, I want to try grokking the concepts contained within and actually employ it.
-# Specifically, it feels like there are deep structural connections between the knapsack problem 
+# Specifically, it feels like there are deep structural connections between the knapsack problem
 # with both the bank robber problem, as well as the change making problem described in the blog post.
 
 """
@@ -138,7 +138,7 @@ First, let's sort all items by descending (ascending?) value.
 Example:
 
 Items ---  $40 - 5 lbs, $30 - 3 lbs, $20 - 1 lbs, $19 - 3 lbs
-Index ---      3      ,     2      ,     1      ,     0  
+Index ---      3      ,     2      ,     1      ,     0
 
 Let k(lim, i) be the maximum value that can be carried with a weight limit of `lim` and considering all items up to the ith item.
 So k(5, 2) means to only consider items at positions 0, 1 and 2 with a weight limit of 5.
@@ -150,7 +150,7 @@ Then k(lim, i) = max (
     ,
 
     # Option 2: Ignore the ith item and only consider remaining items
-    k(lim, i-1) 
+    k(lim, i-1)
 )
 """
 
@@ -164,10 +164,10 @@ def maximum_value(lim, items):
     items.sort(key=lambda item: item['value'], reverse=False) # sorts items in ascending order by value
 
     def subproblem(lim, i):
- 
+
         if len(items) == 0:
             return 0
-    
+
         if lim <= 0:
             return 0
 
@@ -180,7 +180,7 @@ def maximum_value(lim, items):
         # Option 1: we take the ith item
 
         if item_weight > lim: value_take = 0
-        else: 
+        else:
             if i == 0: #  no more items to take
                 value_take = item_value
             else:
@@ -194,7 +194,7 @@ def maximum_value(lim, items):
 
         optimal = max(value_take, value_leave)
         cache[(lim, i)] = optimal
-        
+
         return optimal
 
     maximum_value = subproblem(lim, len(items) - 1)
@@ -204,9 +204,9 @@ def maximum_value(lim, items):
 # I ran this and I legitimately jumped out of my chair when it passed all the tests.
 # I honestly cannot believe that it ran successfully.
 # I tested it on the complex cases in test_knapsack.py and it solved it in just a couple hundred milliseconds, whereas I'm pretty sure I needed to leave my computer on for days to get the answer with the first solution.
-# 
+#
 # So why is it so much faster?
-# 1. No more for-loops. Just rely on recursion to "loop". 
+# 1. No more for-loops. Just rely on recursion to "loop".
 # 2. Also, I implement memoizing/caching now (but that's a more minor minor reason)
 # 3. I also sorted items but I don't think that makes any practical difference whatsoever.
 
