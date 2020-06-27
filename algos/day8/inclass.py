@@ -24,6 +24,7 @@ graph = {
 
 def bfs(graph, start):
     """
+    Returns an array containing the nodes of the graph in the order that BFS searched them.
     """
     result = []
     q = collections.deque()
@@ -42,10 +43,34 @@ def bfs(graph, start):
 
     return result
 
-# print(bfs(graph, 1))
+#print(bfs(graph, 1))
+
+def dfs(graph, start):
+    """
+    Returns an array containing the nodes of the graph in the order that DFS searched them.
+    """
+    result = []
+    stack = []
+    stack.append(start)
+    visited = set()
+
+    while len(stack) > 0:
+        item = stack.pop()
+        if item in visited:
+            continue
+
+        result.append(item)
+        visited.add(item)
+        for child in graph[item]:
+            stack.append(child)
+
+    return result
+
+print(dfs(graph, 1))
 
 def bfs_search(graph, start, end):
     """
+        Returns the number of edges traversed from the start to the end node.
     """
     result = []
     q = collections.deque()
@@ -65,7 +90,7 @@ def bfs_search(graph, start, end):
         for child in graph[item]:
             q.append((child, steps + 1))
 
-    return result
+    return result # Did not find the node
 
 # print(bfs_search(graph, 1, 4))
 
@@ -155,17 +180,17 @@ def solve_puzzle(A, B, target):
 
     return None
 
-answer, graph, came_from = solve_puzzle(3, 5, 4)
+# answer, graph, came_from = solve_puzzle(3, 5, 4)
 
 import pprint
 
 # pprint.pprint(graph)
 # pprint.pprint(came_from)
-start = (0, 0)
-end = (3, 4)
-print(recover2(start, end, came_from))
-print(graph)
-print(len(graph.keys()))
+# start = (0, 0)
+# end = (3, 4)
+# print(recover2(start, end, came_from))
+# print(graph)
+# print(len(graph.keys()))
 
 
 # Definition for a binary tree node.

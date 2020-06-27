@@ -28,7 +28,7 @@ Compiled by Carl Shan.
 4. Given a string that contains a filepath, with special characters `'.'` (meaning the current directory) and `'..'` (meaning the parent directory), implement a function that resolves this string to the appropriate filepath without the `'.'` and `'..'` characters.
 5. Given two jugs that can contain water up to limits `A` and `B` respectively (e.g., 3 and 5), return the number of steps involved in order to have one of the jugs contain `target` units of water.
 6. Implement Breadth-First Search, Depth-First Search or Dijkstra's algorithm over a provided graph. What data structures did you choose and why?
-7. Implement Binary Search recursively with and without indices over an aray.
+7. Implement Binary Search recursively with and without indices over an array.
 8. Count the number of inversions in a list of numbers.
 9. Solve [Frog 1](https://atcoder.jp/contests/dp/tasks/dp_a).
    *  **Advanced**: Now solve [Frog 2](https://atcoder.jp/contests/dp/tasks/dp_b).

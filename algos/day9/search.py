@@ -94,8 +94,6 @@ def bfs(grid, start, goal):
         neighbors = get_neighbors(curr, grid)
         # neighbor_values = [get_element(n, grid) for n in neighbors]
 
-        visited.add(curr)
-
         for neighbor in neighbors:
             q.append(neighbor)
             if neighbor not in explored:
