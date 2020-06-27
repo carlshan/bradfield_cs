@@ -1,4 +1,8 @@
 # Exercises for Weighted and Unweighted Graphs
+Compiled by: Carl Shan
+Contributions from: The Bradfield School of Computer Science
+
+## Exercises
 
 1. [Leetcode: Network Delay Time](https://leetcode.com/problems/network-delay-time/description/)
    * [9 min walkthrough solution](https://www.youtube.com/watch?v=pjITHX3JwH0)

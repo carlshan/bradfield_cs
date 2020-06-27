@@ -1,6 +1,7 @@
-# Introduction to Weighted Graphs
+# Introduction to Weighted Graphs Algorithms
+Written by: Carl Shan
 
-**Resources:**
+## Resources:
 
 * [Shortest Path with Dijkstra's Algorithm](https://bradfieldcs.com/algos/graphs/dijkstras-algorithm/)
 * [Introduction to the A* Algorithm](https://www.redblobgames.com/pathfinding/a-star/introduction.html)
@@ -82,4 +83,9 @@ Other than that, the implementations look virtually identical.
 
 Whereas Dijkstra's is typically used in cases in which we want to find the minimum cost to _all_ locations, A* is a pathfinding algorithm that is typically used when we are optimizing for _one particular location_. It is often used in video games to help computer-controlled characters (e.g., monsters) find the shortest path to some destination (e.g., the player).
 
-An amazing tutorial on A* can [be found here](https://www.redblobgames.com/pathfinding/a-star/introduction.html).
+Rather than rehashing what has already been written about A*, I will share a few links to resources where you can learn more.
+
+**Resources:**
+
+* An amazing tutorial on A* can [be found here](https://www.redblobgames.com/pathfinding/a-star/introduction.html).
+* For a 77 minute lecture from Berkeley's CS188 class on Uniform Cost Search and A*, see [this YouTube link](https://www.youtube.com/watch?v=8pTjoFiICg8&list=PLIZQvCoJVokgKBNx210mkXEk4FeSOGfWu&index=3)
