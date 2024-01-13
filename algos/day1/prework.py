@@ -54,7 +54,7 @@ print(is_pangram_2(test_string_pass, alphabet))
 print(is_pangram_2(test_string_fail, alphabet))
 
 # Approach No. 3 -- Improving upon approach number 1
-# I came to the following solution when wondering whether I could improveon Approach No. 1 by reducing the time it takes to scan the string.
+# I came to the following solution when wondering whether I could improve on Approach No. 1 by reducing the time it takes to scan the string.
 
 def is_pangram_3(string, alphabet):
     """
